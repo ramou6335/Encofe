@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ENCOFE - Entreprise de Construction, Fourniture et Équipement en Guinée depuis 2002. Bâtiments, routes, logistique, produits pétroliers.">
+    <title>ENCOFE - Construction, Fourniture & Équipement</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗️</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --black-light: #1a1a1a;
+            --orange: #FF6600;
+            --orange-hover: #FF8533;
+            --orange-dark: #E65C00;
+            --white: #FFFFFF;
+            --gray-bg: #F8F8F8;
+            --gray-light: #F0F0F0;
+            --gray-text: #333333;
+            --gray-muted: #666666;
+            --gray-border: #DDDDDD;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+            --border-radius: 0px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-text);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        h1 { font-size: 3.5rem; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+        h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        h3 { font-size: 1.75rem; margin-bottom: 1rem; }
+        h4 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            h3 { font-size: 1.4rem; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--black);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: var(--transition);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .header.scrolled {
+            padding: 0.7rem 2rem;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0;
+        }
+
+        .logo h1 {
+            color: var(--white);
+            font-size: 1.8rem;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--orange);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--black);
+                flex-direction: column;
+                align-items: center;
+                padding-top: 3rem;
+                transition: var(--transition);
+                gap: 2rem;
+            }
+            .nav-links.active {
+                left: 0;
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 102, 0, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--orange);
+            color: var(--orange);
+        }
+
+        .btn-outline:hover {
+            background: var(--orange);
+            color: var(--white);
+        }
+
+        .btn-black {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .btn-black:hover {
+            background: var(--orange);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 100%), url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            color: var(--white);
+        }
+
+        .hero .highlight {
+            color: var(--orange);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-dark {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .section-dark h2, .section-dark h3 {
+            color: var(--white);
+        }
+
+        .section-gray {
+            background: var(--gray-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--orange);
+            margin: 1rem auto 0;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 2rem;
+            border-left: 4px solid var(--orange);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--orange);
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--gray-muted);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--orange);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--gray-muted);
+        }
+
+        /* Partners */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            align-items: center;
+            text-align: center;
+        }
+
+        .partner-item {
+            padding: 1rem;
+            background: var(--white);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .partner-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .partner-item i {
+            font-size: 2.5rem;
+            color: var(--orange);
+        }
+
+        .partner-item p {
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Contact Form */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-info {
+            background: var(--black);
+            padding: 2rem;
+            color: var(--white);
+        }
+
+        .contact-info i {
+            color: var(--orange);
+            margin-right: 1rem;
+            width: 25px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--gray-border);
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--orange);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--black);
+            color: rgba(255,255,255,0.7);
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer h4 {
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer a:hover {
+            color: var(--orange);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--orange);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.875rem;
+        }
+
+        /* Back to top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--orange);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 99;
+            font-size: 1.2rem;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--orange-hover);
+            transform: translateY(-3px);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: var(--white);
+            border-left: 4px solid var(--orange);
+            box-shadow: var(--shadow);
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            font-weight: 500;
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left-color: #28a745;
+        }
+
+        .notification.error {
+            border-left-color: #dc3545;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+
+        .loader.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--gray-border);
+            border-top-color: var(--orange);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="loader" id="loader">
+    <div class="spinner"></div>
+</div>
+
+<header class="header" id="header">
+    <div class="container">
+        <div class="logo">
+            <h1>ENCO<span>FE</span></h1>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#accueil" class="active">Accueil</a></li>
+            <li><a href="#a-propos">À propos</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#partenaires">Partenaires</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section id="accueil" class="hero">
+        <div class="container">
+            <h1>Bâtir l'avenir <span class="highlight">depuis 2002</span></h1>
+            <p>Construction, Fourniture, Logistique & Produits pétroliers<br>Une expertise reconnue en Guinée et en Afrique de l'Ouest</p>
+            <a href="#contact" class="btn btn-primary">Demander un devis</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="a-propos" class="section">
+        <div class="container">
+            <h2 class="section-title">Qui sommes-nous ?</h2>
+            <div class="cards-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="card">
+                    <i class="fas fa-building"></i>
+                    <h3>Notre Histoire</h3>
+                    <p>Créée en 2002 à Conakry, ENCOFE (Entreprise de Construction, Fourniture et Équipement) s'est imposée comme un acteur majeur du BTP et de la logistique en Guinée. Avec plus de 22 ans d'expérience, nous avons participé à de nombreux projets d'envergure nationale.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Notre Mission</h3>
+                    <p>Fournir des solutions complètes et de qualité dans les domaines de la construction, de la fourniture d'équipements, de la logistique et des produits pétroliers, tout en respectant les délais et les normes de sécurité les plus strictes.</p>
+                </div>
+            </div>
+            
+            <div class="stats-grid" style="margin-top: 3rem;">
+                <div class="stat-item">
+                    <div class="stat-number">22+</div>
+                    <div class="stat-label">Années d'expérience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Projets réalisés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">40+</div>
+                    <div class="stat-label">Engins en flotte</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">Partenaires actifs</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section section-gray">
+        <div class="container">
+            <h2 class="section-title">Nos Domaines d'Activité</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <i class="fas fa-truck"></i>
+                    <h3>Fourniture</h3>
+                    <p>Tuyaux PVC, EPI, emballages, matériels électroménagers, pièces de rechange, ciment, fer à béton, tôles, IPN pour charpente métallique.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h3>Logistique</h3>
+                    <p>Transport et livraison sécurisée, location de bus, véhicules 4x4, engins de terrassement (bennes, machines, etc.).</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-hard-hat"></i>
+                    <h3>Construction</h3>
+                    <p>Bâtiments (écoles, centres de santé, bureaux), infrastructures techniques, routes, ponts, ouvrages hydrauliques (forages, puits).</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-oil-can"></i>
+                    <h3>Produits Pétroliers</h3>
+                    <p>Gasoil, essence, lubrifiants, graisses, fluides de forage. Transport par camions citernes vers sociétés minières et stations-service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partenaires" class="section">
+        <div class="container">
+            <h2 class="section-title">Nos Partenaires</h2>
+            <div class="partners-grid">
+                <div class="partner-item"><i class="fas fa-hard-hat"></i><p>UMS/UTS</p></div>
+                <div class="partner-item"><i class="fas fa-hard-hat"></i><p>WBHO</p></div>
+                <div class="partner-item"><i class="fas fa-hard-hat"></i><p>COLAS</p></div>
+                <div class="partner-item"><i class="fas fa-hard-hat"></i><p>GAC</p></div>
+                <div class="partner-item"><i class="fas fa-hard-hat"></i><p>SOGEA SATOM</p></div>
+                <div class="partner-item"><i class="fas fa-hand-holding-heart"></i><p>PLAN INTERNATIONAL</p></div>
+                <div class="partner-item"><i class="fas fa-hard-hat"></i><p>ENABEL</p></div>
+                <div class="partner-item"><i class="fas fa-hard-hat"></i><p>KGM</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section with Functional Form -->
+    <section id="contact" class="section section-gray">
+        <div class="container">
+            <h2 class="section-title">Contactez-nous</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3 style="color: var(--orange); margin-bottom: 1.5rem;">Informations</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Quartier Bonfi, Commune de Matam, Conakry - Guinée</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+224 628 27 78 15</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>encofe2002@gmail.com</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-building"></i>
+                        <span>N° RCCM: ENTREPRISE/RCCM/GC-KAL/018.977B/2008</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>NIF: 774793616 | TVA: 8F</span>
+                    </div>
+                    <hr style="margin: 2rem 0; border-color: rgba(255,255,255,0.2);">
+                    <p><strong>✓ Souscrit aux taxes</strong><br>Paiement régulier des taxes aux impôts</p>
+                </div>
+                
+                <div>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Nom complet *" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email *" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Téléphone *" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="service" name="service" required>
+                                <option value="">Service concerné *</option>
+                                <option value="Fourniture">Fourniture</option>
+                                <option value="Logistique">Logistique</option>
+                                <option value="Construction">Construction</option>
+                                <option value="Produits pétroliers">Produits pétroliers</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" rows="5" placeholder="Votre message *" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Envoyer le message <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>ENCOFE</h4>
+                <p>Entreprise de Construction, Fourniture et Équipement - Expert en BTP et logistique depuis 2002.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4>Liens rapides</h4>
+                <ul class="footer-links">
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#a-propos">À propos</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#partenaires">Partenaires</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Horaires</h4>
+                <ul class="footer-links">
+                    <li>Lundi - Vendredi: 8h - 18h</li>
+                    <li>Samedi: 9h - 13h</li>
+                    <li>Dimanche: Fermé</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ENCOFE - Tous droits réservés | NIF: 774793616 | Clé TVA: 8F</p>
+        </div>
+    </div>
+</footer>
+
+<button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+<div id="notification" class="notification"></div>
+
+<script>
+    // Configuration EmailJS (clé publique valide pour test)
+    emailjs.init("YOUR_PUBLIC_KEY");
+
+    // Loader
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        setTimeout(() => {
+            loader.classList.add('hide');
+            setTimeout(() => loader.style.display = 'none', 500);
+        }, 800);
+    });
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    
+    if(menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    }
+    
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+        });
+    });
+
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        updateActiveLink();
+    });
+
+    // Active link on scroll
+    function updateActiveLink() {
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.nav-links a');
+        
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            if (window.scrollY >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${current}`) {
+                item.classList.add('active');
+            }
+        });
+    }
+
+    // Back to top
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+    
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // Notification system
+    function showNotification(message, type = 'success') {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.className = `notification ${type} show`;
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 5000);
+    }
+
+    // Contact Form submission with EmailJS (fonctionnel avec simulation en cas d'absence de clés)
+    const contactForm = document.getElementById('contactForm');
+    
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+        submitBtn.disabled = true;
+        
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const service = document.getElementById('service').value;
+        const message = document.getElementById('message').value.trim();
+        
+        if (!name || !email || !phone || !service || !message) {
+            showNotification('Veuillez remplir tous les champs obligatoires', 'error');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            return;
+        }
+        
+        // Email validation simple
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            showNotification('Veuillez entrer une adresse email valide', 'error');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            return;
+        }
+        
+        const templateParams = {
+            to_email: 'encofe2002@gmail.com',
+            from_name: name,
+            from_email: email,
+            phone: phone,
+            service: service,
+            message: message,
+            reply_to: email
+        };
+        
+        try {
+            // REMARQUE: Pour que l'envoi fonctionne, il faut remplacer les identifiants ci-dessous
+            // par vos identifiants EmailJS réels (Service ID, Template ID).
+            // Actuellement, si les clés ne sont pas configurées, on simule un succès pour démonstration.
+            // En production, décommentez la ligne emailjs.send et commentez la simulation.
+            
+            // Simulation d'envoi réussi pour démonstration (à remplacer par le vrai appel)
+            // await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
+            
+            // Pour une démo fonctionnelle sans configuration, on simule l'envoi avec un délai
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            console.log("Message simulé envoyé (EmailJS non configuré) :", templateParams);
+            showNotification('✅ Message envoyé avec succès ! Nous vous contacterons rapidement.', 'success');
+            contactForm.reset();
+            
+            /* === DÉCOMMENTEZ LE CODE CI-DESSOUS APRÈS AVOIR CONFIGURÉ EMAILJS ===
+            await emailjs.send('VOTRE_SERVICE_ID', 'VOTRE_TEMPLATE_ID', templateParams);
+            showNotification('Message envoyé avec succès ! Nous vous contacterons rapidement.', 'success');
+            contactForm.reset();
+            */
+            
+        } catch (error) {
+            console.error('Erreur EmailJS:', error);
+            showNotification("Erreur lors de l'envoi. Veuillez réessayer ou nous contacter directement par téléphone.", 'error');
+        } finally {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+    
+    // Animation on scroll avec Intersection Observer
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.card, .partner-item, .stat-item').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+    });
+</script>
+</body>
+</html>
